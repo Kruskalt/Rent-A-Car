@@ -1,0 +1,44 @@
+{
+  "name": "rent-a-car",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kruskalt/Rent-A-Car.git"
+  },
+  "author": "nazareno",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kruskalt/Rent-A-Car/issues"
+  },
+  "homepage": "https://github.com/Kruskalt/Rent-A-Car#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.5",
+    "cypress": "^4.11.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.18.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.1.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "connect-session-sequelize": "^7.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "multer": "^1.4.2",
+    "nunjucks": "^3.2.1",
+    "rsdi": "^1.0.5",
+    "sequelize": "^6.3.3",
+    "sqlite3": "^5.0.0"
+  }
+}
