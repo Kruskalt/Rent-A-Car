@@ -1,4 +1,4 @@
-module.exports = class Club {
+module.exports = class Auto {
     constructor({
       id,
       marca,
