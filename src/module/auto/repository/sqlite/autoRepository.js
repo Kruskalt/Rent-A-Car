@@ -32,7 +32,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
           aire = ?,
           pasajeros = ?,
           man = ?,
-          automatico = ?,
+          automatico = ?
         WHERE id = ?
       `);
 
@@ -89,15 +89,15 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
   }
 
   /**
-   * @param {import('../../entity/club')} club
+   * @param {import('../../entity/auto.js')} auto
    * @returns {Boolean} devuelve true si se borró algo, false si no se borró nada.
    */
-  delete(club) {
-    if (!club || !club.id) {
-      throw new ClubIdNotDefinedError('El ID del club no está definido');
+  delete(auto) {
+    if (!auto || !auto.id) {
+      throw new autoIdNotDefinedError('El ID del auto no está definido');
     }
 
-    this.databaseAdapter.prepare('DELETE FROM clubes WHERE id = ?').run(club.id);
+    this.databaseAdapter.prepare('DELETE FROM autos WHERE id = ?').run(auto.id);
 
     return true;
   }
@@ -134,27 +134,25 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
   }
 
   /**
-   * @return {Array<import('../../entity/club')>}
+   * @return {Array<import('../../entity/auto.js')>}
    */
   getAll() {
-    const clubes = this.databaseAdapter
+    const autos = this.databaseAdapter
       .prepare(
         `SELECT
-          id,
-          name,
-          short_name,
-          tla,
-          crest_url,
-          address,
-          phone,
-          website,
-          email,
-          founded,
-          club_colors,
-          venue
-        FROM clubes`
+        id,
+        marca ,
+        modelo ,
+        año ,
+        kms ,
+        color ,
+        aire ,
+        pasajeros ,
+        man,
+        automatico 
+        FROM autos`
       )
       .all();
-    return clubes.map((clubData) => fromDbToEntity(clubData));
+    return autos.map((autoData) => fromDbToEntity(autoData));
   }
 };
