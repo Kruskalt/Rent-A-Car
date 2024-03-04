@@ -10,6 +10,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
   constructor(databaseAdapter) {
     super();
     this.databaseAdapter = databaseAdapter;
+    
   }
 
   /**
@@ -137,6 +138,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
    * @return {Array<import('../../entity/auto.js')>}
    */
   getAll() {
+    console.log("entre aca en get all")
     const autos = this.databaseAdapter
       .prepare(
         `SELECT

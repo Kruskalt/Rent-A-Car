@@ -9,7 +9,7 @@ const Auto = require('../entity/auto.js');
 module.exports = class Service {
   /**
    *
-   * @param {AbstractAbstractRepository} autoRepository
+   * @param {AbstractRepository} autoRepository
    */
   constructor(autoRepository) {
     this.autoRepository = autoRepository;

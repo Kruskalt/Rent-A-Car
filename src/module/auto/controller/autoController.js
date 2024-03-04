@@ -34,6 +34,8 @@ module.exports = class autoController extends AbstractController {
    * @param {import('express').Response} res
    */
   async index(req, res) {
+    const auto1= await this.autoService.getById(1);
+    console.log(auto1)
     const autos = await this.autoService.getAll();
     const { errors, messages } = req.session;
     res.render('auto/view/index.html', { data: {  autos }, messages, errors });
