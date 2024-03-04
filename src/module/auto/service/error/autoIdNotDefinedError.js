@@ -1,0 +1,1 @@
+module.exports = class AutoIdNotDefinedError extends Error {};
