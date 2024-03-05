@@ -10,7 +10,7 @@ const { AutoController, AutoService, AutoRepository } = require('../module/auto/
 function configureMainDatabaseAdapter() {
     
 
-  return new Sqlite3Database("./s.db", {
+  return new Sqlite3Database("./database.db", {
     verbose: console.log,
   });
 }

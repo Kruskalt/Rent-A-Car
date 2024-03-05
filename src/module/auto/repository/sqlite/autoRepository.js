@@ -23,8 +23,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
     if (isUpdate) {
       id = auto.id;
       const statement = this.databaseAdapter.prepare(`
-        UPDATE autos SET
-          
+        UPDATE autos SET   
           marca = ?,
           modelo = ?,
           año = ?,
@@ -83,7 +82,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
       );
       
       id = result.lastInsertRowid;
-      console.log("soy el id",id);
+     
     }
 
     return this.getById(id);
@@ -125,7 +124,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
       )
       .get(id);
       
-      console.log("soy el auto",id,auto)
+      
 
     if (auto === undefined) {
       throw new AutoNotFoundError(`No se encontró el auto con ID: ${id}`);
@@ -138,7 +137,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
    * @return {Array<import('../../entity/auto.js')>}
    */
   getAll() {
-    console.log("entre aca en get all")
+    
     const autos = this.databaseAdapter
       .prepare(
         `SELECT

@@ -48,7 +48,7 @@ function fromDbToEntity({
     man:manual ,
     automatico 
 }) {
-  console.log("mapper",id)
+  
   return new Auto({
     id,
     marca ,

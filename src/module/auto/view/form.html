@@ -16,13 +16,13 @@
 
 <hr />
 
-<form action="/auto/save" method="POST" enctype="multipart/form-data">
+<form action="/auto/save" method="POST" enctype="application/json">
   <input type="hidden" name="id" value="{{auto.id}}" readonly />
 
   <div class="field">
     <label class="label">Marca</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="Marca" placeholder="Toyota" value="{{auto.marca}}" />
+      <input class="input" type="text" name="marca"  placeholder="Toyota" value="{{auto.marca}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-signature"></i>
       </span>
@@ -32,7 +32,7 @@
   <div class="field">
     <label class="label">Modelo</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="Modelo" placeholder="Corolla Familiar" value="{{auto.modelo}}" />
+      <input class="input" type="text" name="modelo" placeholder="Corolla Familiar" value="{{auto.modelo}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-compress"></i>
       </span>
@@ -74,7 +74,7 @@
   <div class="field">
     <label class="label">Aire</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="Aire" placeholder="si" value="{{auto.aire}}" />
+      <input class="input" type="text" name="aire" placeholder="si" value="{{auto.aire}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-phone"></i>
       </span>
@@ -84,7 +84,7 @@
   <div class="field">
     <label class="label">Pasajeros</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="Pasajeros" placeholder="5"
+      <input class="input" type="text" name="pasajeros" placeholder="5"
         value="{{auto.pasajeros}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-globe"></i>
@@ -105,7 +105,7 @@
   <div class="field">
     <label class="label">Automatico</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="Automatico" placeholder="si" value="{{auto.automatico}}" />
+      <input class="input" type="text" name="automatico" placeholder="si" value="{{auto.automatico}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-file-signature"></i>
       </span>

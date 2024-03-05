@@ -27,6 +27,7 @@ module.exports = class autoController extends AbstractController {
     app.get(`${ROUTE}/view/:id`, this.view.bind(this));
     app.post(`${ROUTE}/save`, this.save.bind(this));
     app.get(`${ROUTE}/delete/:id`, this.delete.bind(this));
+    
   }
 
   /**
@@ -34,8 +35,8 @@ module.exports = class autoController extends AbstractController {
    * @param {import('express').Response} res
    */
   async index(req, res) {
-    const auto1= await this.autoService.getById(1);
-    console.log(auto1)
+    
+    
     const autos = await this.autoService.getAll();
     const { errors, messages } = req.session;
     res.render('auto/view/index.html', { data: {  autos }, messages, errors });
@@ -78,10 +79,8 @@ module.exports = class autoController extends AbstractController {
   async save(req, res) {
     try {
       const auto = fromDataToEntity(req.body);
-      if (req.file) {
-        const { path } = req.file;
-        auto.crestUrl = path;
-      }
+      console.log("estoy en autoController save", req.body)
+      
       const savedAuto = await this.autoService.save(auto);
       if (auto.id) {
         req.session.messages = [`El auto con id ${auto.id} se actualizó exitosamente`];
