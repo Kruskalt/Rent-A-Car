@@ -8,7 +8,7 @@ const session = require('express-session');
 const { AutoController, AutoService, AutoRepository } = require('../module/auto/module.js');
 
 function configureMainDatabaseAdapter() {
-    console.log("la db es ", process.env.DB_PATH)
+    
 
   return new Sqlite3Database("./s.db", {
     verbose: console.log,

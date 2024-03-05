@@ -25,7 +25,7 @@ module.exports = class autoController extends AbstractController {
     app.get(`${ROUTE}/create`, this.create.bind(this));
     app.get(`${ROUTE}`, this.index.bind(this));
     app.get(`${ROUTE}/view/:id`, this.view.bind(this));
-    app.post(`${ROUTE}/save`, this.uploadMiddleware.single('crest-url'), this.save.bind(this));
+    app.post(`${ROUTE}/save`, this.save.bind(this));
     app.get(`${ROUTE}/delete/:id`, this.delete.bind(this));
   }
 
@@ -57,6 +57,7 @@ module.exports = class autoController extends AbstractController {
    */
   async view(req, res) {
     const { id } = req.params;
+    
     if (!id) {
       throw new AutoIdNotDefinedError();
     }

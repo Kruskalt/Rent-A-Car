@@ -7,31 +7,27 @@ const Auto = require('../entity/auto');
  */
 function fromDataToEntity({
   id,
-  name,
-  'short-name': shortName,
-  tla,
-  'crest-url': crestUrl,
-  address,
-  phone,
-  website,
-  email,
-  founded,
-  'club-colors': clubColors,
-  venue,
+    marca ,
+    modelo ,
+    año ,
+    kms ,
+    color ,
+    aire ,
+    pasajeros ,
+    manual ,
+    automatico 
 }) {
-  return new Club({
+  return new Auto({
     id,
-    name,
-    shortName,
-    tla,
-    crestUrl,
-    address,
-    phone,
-    website,
-    email,
-    founded,
-    clubColors,
-    venue,
+    marca ,
+    modelo ,
+    año ,
+    kms ,
+    color ,
+    aire ,
+    pasajeros ,
+    manual ,
+    automatico 
   });
 }
 
