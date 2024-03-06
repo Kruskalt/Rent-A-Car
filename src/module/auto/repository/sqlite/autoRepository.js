@@ -96,8 +96,9 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
     if (!auto || !auto.id) {
       throw new autoIdNotDefinedError('El ID del auto no está definido');
     }
-
+    
     this.databaseAdapter.prepare('DELETE FROM autos WHERE id = ?').run(auto.id);
+    this.databaseAdapter.prepare(`UPDATE sqlite_sequence SET seq = (SELECT MAX(id) FROM autos) WHERE name = 'autos'`).run();
 
     return true;
   }

@@ -27,7 +27,7 @@ module.exports = class autoController extends AbstractController {
     app.get(`${ROUTE}/view/:id`, this.view.bind(this));
     app.post(`${ROUTE}/save`, this.save.bind(this));
     app.get(`${ROUTE}/delete/:id`, this.delete.bind(this));
-    
+    app.get(`${ROUTE}/rent/:id`, this.rent.bind(this));
   }
 
   /**
@@ -71,6 +71,27 @@ module.exports = class autoController extends AbstractController {
       res.redirect('/auto');
     }
   }
+
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   */
+  async rent(req, res) {
+    const { id } = req.params;
+    
+    if (!id) {
+      throw new AutoIdNotDefinedError();
+    }
+
+    try {
+      const auto = await this.autoService.getById(id);
+      res.render('auto/view/alquiler.html', { data: {  auto } });
+    } catch (e) {
+      req.session.errors = [e.message, e.stack];
+      res.redirect('/auto');
+    }
+  }
+
 
   /**
    * @param {import('express').Request} req

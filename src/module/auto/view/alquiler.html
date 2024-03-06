@@ -1,0 +1,50 @@
+{% extends 'view/layout/base.html' %}
+
+{% block body %}
+{% set auto = data.auto %}
+
+<div class="level-left">
+  <div class="level-item">
+    <h1 class="title is-1">
+      {{"Editando auto ID: " + auto.id if auto.id else "Nuevo auto"}}
+    </h1>
+  </div>
+  <div class="level-item">
+    <span><a class="button is-link" href="/auto">Cancelar</a></span>
+  </div>
+</div>
+
+<hr />
+
+<form action="/auto/save" method="POST" enctype="application/json">
+  <input type="hidden" name="id" value="{{auto.id}}" readonly />
+
+  <div class="field">                           
+    <label class="label">Alquilar desde</label> 
+    <div class="control has-icons-left"> 
+      
+      <input class="input" type="date" name="desde" style="display: inline; width: 40vh;" 
+                        id="fecha-desde">
+      <span class="icon is-small is-left">
+        <i class="fas fa-signature"></i>
+      </span>
+    </div>
+  </div>
+
+  <div class="field">                           
+    <label class="label">Alquilar hasta</label> 
+    <div class="control has-icons-left"> 
+      
+      <input class="input" type="date" name="hasta" style="display: inline; width: 40vh;" 
+                        id="fecha-hasta">
+      <span class="icon is-small is-left">
+        <i class="fas fa-signature"></i>
+      </span>
+    </div>
+  </div>
+
+
+  <input type="submit" class="button is-primary is-large" value="Alquilar" />
+  <hr />
+</form>
+{% endblock %}
