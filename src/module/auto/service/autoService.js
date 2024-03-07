@@ -5,6 +5,7 @@
 const AutoNotDefinedError = require('./error/autoNotDefinedError.js');
 const AutoIdNotDefinedError = require('./error/autoIdNotDefinedError.js');
 const Auto = require('../entity/auto.js');
+const Alquiler  = require('../entity/alquiler.js');
 
 module.exports = class Service {
   /**
@@ -25,6 +26,15 @@ module.exports = class Service {
 
     return this.autoRepository.save(auto);
   }
+  /**
+   * @param {Alquiler} alquiler
+   */
+  async rent(alquiler) {
+    
+
+    return this.autoRepository.rent(alquiler);
+  }
+
 
   /**
    * @param {auto} auto

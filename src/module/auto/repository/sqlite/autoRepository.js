@@ -12,6 +12,39 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
     this.databaseAdapter = databaseAdapter;
     
   }
+  /**
+   * @param {import('../../entity/alquiler.js')} alquiler
+   * @returns {import('../../entity/alquiler.js')} 
+   */
+  rent(alquiler) {
+    
+      const statement = this.databaseAdapter.prepare(`
+        INSERT INTO alquilado(
+            hasta,
+            desde ,
+            fk_auto ,
+            dni_usuario ,
+            telefono ,
+            mail 
+           
+          
+        ) VALUES(?, ?, ?, ?, ?, ?)
+      `);
+
+      const result = statement.run(
+        alquiler.hasta,
+        alquiler.desde,
+        alquiler.fkAuto,
+        alquiler.dniUsuario,
+        alquiler.telefono,
+        alquiler.mail,
+      );
+      return alquiler;
+    }
+
+   
+  
+
 
   /**
    * @param {import('../../entity/auto')} auto

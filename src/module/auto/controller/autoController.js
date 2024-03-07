@@ -1,4 +1,5 @@
 const { fromDataToEntity } = require('../mapper/autoMapper');
+const alquilerMapper = require('../mapper/alquilerMapper');
 const AutoIdNotDefinedError = require('./error/autoIdNotDefinedError');
 const AbstractController = require('../../abstractController');
 
@@ -28,6 +29,7 @@ module.exports = class autoController extends AbstractController {
     app.post(`${ROUTE}/save`, this.save.bind(this));
     app.get(`${ROUTE}/delete/:id`, this.delete.bind(this));
     app.get(`${ROUTE}/rent/:id`, this.rent.bind(this));
+    app.post(`${ROUTE}/rented`, this.rented.bind(this));
   }
 
   /**
@@ -86,6 +88,26 @@ module.exports = class autoController extends AbstractController {
     try {
       const auto = await this.autoService.getById(id);
       res.render('auto/view/alquiler.html', { data: {  auto } });
+    } catch (e) {
+      req.session.errors = [e.message, e.stack];
+      res.redirect('/auto');
+    }
+  }
+
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   */
+  async rented(req, res) {
+    try {
+      const alquiler = alquilerMapper.fromDataToEntity(req.body);
+      console.log("estoy en autoController rented", req.body)
+      console.log("estoy en autoController rented este es el alquiler", alquiler)
+      const savedAlquiler = await this.autoService.rent(alquiler);
+      
+      req.session.messages = [`Se creó el alquiler con exito`];
+      
+      res.redirect('/auto');
     } catch (e) {
       req.session.errors = [e.message, e.stack];
       res.redirect('/auto');
