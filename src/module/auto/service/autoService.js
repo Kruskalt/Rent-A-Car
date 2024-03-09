@@ -58,4 +58,8 @@ module.exports = class Service {
   async getAll() {
     return this.autoRepository.getAll();
   }
+
+  async getAllRentById(id) {
+    return this.autoRepository.getAllRentById(id);
+  }
 };

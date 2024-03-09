@@ -5,6 +5,12 @@
             "driver": "SQLite",
             "name": "ss",
             "database": "s.db"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "autos",
+            "database": "${workspaceFolder:Rent-A-Car}/database.db"
         }
     ]
 }

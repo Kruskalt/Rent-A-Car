@@ -67,6 +67,7 @@ module.exports = class autoController extends AbstractController {
 
     try {
       const auto = await this.autoService.getById(id);
+      
       res.render('auto/view/form.html', { data: {  auto } });
     } catch (e) {
       req.session.errors = [e.message, e.stack];
@@ -87,7 +88,9 @@ module.exports = class autoController extends AbstractController {
 
     try {
       const auto = await this.autoService.getById(id);
-      res.render('auto/view/alquiler.html', { data: {  auto } });
+      const alquileres= await this.autoService.getAllRentById(id)
+      console.log(alquileres)
+      res.render('auto/view/alquiler.html', { data: {  auto , alquileres} });
     } catch (e) {
       req.session.errors = [e.message, e.stack];
       res.redirect('/auto');
@@ -104,9 +107,7 @@ module.exports = class autoController extends AbstractController {
       console.log("estoy en autoController rented", req.body)
       console.log("estoy en autoController rented este es el alquiler", alquiler)
       const savedAlquiler = await this.autoService.rent(alquiler);
-      
-      req.session.messages = [`Se creó el alquiler con exito`];
-      
+      req.session.messages = [`Se creó el alquiler con exito`];     
       res.redirect('/auto');
     } catch (e) {
       req.session.errors = [e.message, e.stack];

@@ -2,7 +2,7 @@ const AbstractAutoRepository = require('../abstactAutoRepository.js');
 const AutoNotFoundError = require('../error/autoNotFoundError.js');
 const autoIdNotDefinedError = require('../error/autoIdNotDefinedError.js');
 const { fromDbToEntity } = require('../../mapper/autoMapper.js');
-
+const alquilerMapper = require('../../mapper/alquilerMapper.js');
 module.exports = class AutoRepository extends AbstractAutoRepository {
   /**
    * @param {import('better-sqlite3').Database} databaseAdapter
@@ -185,9 +185,27 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
         pasajeros ,
         man,
         automatico 
-        FROM autos`
+        FROM autos `
       )
       .all();
     return autos.map((autoData) => fromDbToEntity(autoData));
+  }
+  getAllRentById(id) {
+    
+    const alquileres = this.databaseAdapter
+      .prepare(
+        `SELECT
+        id,
+        hasta ,
+         desde,
+        fk_auto ,
+        dni_usuario ,
+        telefono ,
+        mail 
+        
+        FROM alquilado WHERE fk_auto= ${id}`
+      )
+      .all();
+    return alquileres.map((alquilerData) => alquilerMapper.fromDbToEntity(alquilerData));
   }
 };

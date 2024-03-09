@@ -14,9 +14,7 @@ function fromDataToEntity({
     mail
 
 }) {
-    console.log("mapper",id)
-    console.log(dni)
-
+    
     return new Alquiler({
         hasta,
         desde,
@@ -34,28 +32,22 @@ function fromDataToEntity({
  */
 function fromDbToEntity({
     id,
-    marca,
-    modelo,
-    año,
-    kms,
-    color,
-    aire,
-    pasajeros,
-    man: manual,
-    automatico
+    hasta,
+    desde,
+    fk_auto,
+    dni_usuario,
+    telefono,
+    mail,
+    
 }) {
 
-    return new Auto({
-        id,
-        marca,
-        modelo,
-        año,
-        kms,
-        color,
-        aire,
-        pasajeros,
-        manual,
-        automatico
+    return new Alquiler({
+        hasta,
+        desde,
+        fk_auto,
+        dni_usuario,
+        telefono,
+        mail
     });
 }
 

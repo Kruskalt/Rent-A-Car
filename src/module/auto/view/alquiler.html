@@ -2,6 +2,7 @@
 
 {% block body %}
 {% set auto = data.auto %}
+{% set alquileres = data.alquileres %}
 
 <div class="level-left">
   <div class="level-item">
@@ -84,4 +85,25 @@
   <input type="submit" class="button is-primary is-large" value="Alquilar" />
   <hr />
 </form>
+
+<div class="level-left">
+  <div class="level-item">
+    <h1 class="title is-1">
+      {{"Fechas no disponibles " }}
+    </h1>
+  </div>
+ 
+  
+</div>
+
+{% for alquiler in alquileres %}
+  
+
+<div>
+  
+  {{"Desde " + alquiler.desde + " Hasta"+ alquiler.hasta}}
+</div>
+
+{% endfor %}
+
 {% endblock %}
