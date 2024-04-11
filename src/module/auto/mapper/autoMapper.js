@@ -1,5 +1,14 @@
 const Auto = require('../entity/auto');
 
+
+
+/**
+ * @param {import('./../model/autoModel')} model
+ * @returns {import('../../auto/entity/auto')}
+ */
+function fromModelToEntity(model) {
+  return new Auto(model.toJSON());
+}
 /**
  *
  * @param {Object} formData
@@ -76,4 +85,5 @@ function fromDbToEntity({
 module.exports = {
   fromDataToEntity,
   fromDbToEntity,
+  fromModelToEntity
 };

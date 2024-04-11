@@ -1,211 +1,120 @@
 const AbstractAutoRepository = require('../abstactAutoRepository.js');
 const AutoNotFoundError = require('../error/autoNotFoundError.js');
 const autoIdNotDefinedError = require('../error/autoIdNotDefinedError.js');
-const { fromDbToEntity } = require('../../mapper/autoMapper.js');
+const { fromDbToEntity,fromModelToEntity } = require('../../mapper/autoMapper.js');
 const alquilerMapper = require('../../mapper/alquilerMapper.js');
 module.exports = class AutoRepository extends AbstractAutoRepository {
   /**
-   * @param {import('better-sqlite3').Database} databaseAdapter
+   * @param {typeof import('../../model/autoModel.js')} clubModel
+   * *
    */
-  constructor(databaseAdapter) {
+  constructor(autoModel) {
     super();
-    this.databaseAdapter = databaseAdapter;
+    this.autoModel = autoModel;
     
   }
-  /**
-   * @param {import('../../entity/alquiler.js')} alquiler
-   * @returns {import('../../entity/alquiler.js')} 
-   */
-  rent(alquiler) {
+  // /**
+  //  * @param {import('../../entity/alquiler.js')} alquiler
+  //  * @returns {import('../../entity/alquiler.js')} 
+  //  */
+  // rent(alquiler) {
     
-      const statement = this.databaseAdapter.prepare(`
-        INSERT INTO alquilado(
-            hasta,
-            desde ,
-            fk_auto ,
-            dni_usuario ,
-            telefono ,
-            mail 
+  //     const statement = this.databaseAdapter.prepare(`
+  //       INSERT INTO alquilado(
+  //           hasta,
+  //           desde ,
+  //           fk_auto ,
+  //           dni_usuario ,
+  //           telefono ,
+  //           mail 
            
           
-        ) VALUES(?, ?, ?, ?, ?, ?)
-      `);
+  //       ) VALUES(?, ?, ?, ?, ?, ?)
+  //     `);
 
-      const result = statement.run(
-        alquiler.hasta,
-        alquiler.desde,
-        alquiler.fkAuto,
-        alquiler.dniUsuario,
-        alquiler.telefono,
-        alquiler.mail,
-      );
-      return alquiler;
-    }
+  //     const result = statement.run(
+  //       alquiler.hasta,
+  //       alquiler.desde,
+  //       alquiler.fkAuto,
+  //       alquiler.dniUsuario,
+  //       alquiler.telefono,
+  //       alquiler.mail,
+  //     );
+  //     return alquiler;
+  //   }
 
    
   
 
 
   /**
-   * @param {import('../../entity/auto')} auto
-   * @returns {import('../../entity/auto')}
+   * @param {import('../../entity/auto.js')} auto
+   * @returns {Promise<import('../../entity/auto.js')>}
    */
-  save(auto) {
-    let id;
-    const isUpdate = auto.id;
-    if (isUpdate) {
-      id = auto.id;
-      const statement = this.databaseAdapter.prepare(`
-        UPDATE autos SET   
-          marca = ?,
-          modelo = ?,
-          año = ?,
-          kms = ?,
-          color = ?,
-          aire = ?,
-          pasajeros = ?,
-          man = ?,
-          automatico = ?
-        WHERE id = ?
-      `);
+  async save(auto) {
+    let autoModel;
 
-      const params = [
-        auto.marca,
-        auto.modelo,
-        auto.año,
-        auto.kms,
-        auto.color,
-        auto.aire,
-        auto.pasajeros,
-        auto.manual,
-        auto.automatico,
-        auto.id,
-      ];
+    const buildOptions = { isNewRecord: !auto.id, include: this.areaModel };
+    autoModel = this.autoModel.build(auto, buildOptions);
+    
+    autoModel = await autoModel.save();
 
-    //   if (club.crestUrl) {
-    //     params.unshift(club.crestUrl);
-    //   }
-
-      statement.run(params);
-    } else {
-      const statement = this.databaseAdapter.prepare(`
-        INSERT INTO autos(
-            marca ,
-            modelo ,
-            año ,
-            kms ,
-            color ,
-            aire ,
-            pasajeros ,
-            man ,
-            automatico 
-        ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
-
-      const result = statement.run(
-        auto.marca,
-        auto.modelo,
-        auto.año,
-        auto.kms,
-        auto.color,
-        auto.aire,
-        auto.pasajeros,
-        auto.manual,
-        auto.automatico
-      );
-      
-      id = result.lastInsertRowid;
-     
-    }
-
-    return this.getById(id);
+    return fromModelToEntity(autoModel);
   }
 
   /**
    * @param {import('../../entity/auto.js')} auto
    * @returns {Boolean} devuelve true si se borró algo, false si no se borró nada.
    */
-  delete(auto) {
+  async delete(auto) {
     if (!auto || !auto.id) {
-      throw new autoIdNotDefinedError('El ID del auto no está definido');
+      throw new autoIdNotDefinedError();
     }
-    
-    this.databaseAdapter.prepare('DELETE FROM autos WHERE id = ?').run(auto.id);
-    this.databaseAdapter.prepare(`UPDATE sqlite_sequence SET seq = (SELECT MAX(id) FROM autos) WHERE name = 'autos'`).run();
 
-    return true;
+    return Boolean(await this.autoModel.destroy({ where: { id: auto.id } }));
   }
 
   /**
    * @param {Number} id
-   * @returns {import('../../entity/auto')}
+   * @returns {import('../../entity/auto.js')}
    */
-  getById(id) {
-    const auto = this.databaseAdapter
-      .prepare(
-        `SELECT
-        id,
-        marca ,
-        modelo ,
-        año ,
-        kms ,
-        color ,
-        aire ,
-        pasajeros ,
-        man,
-        automatico 
-          FROM autos WHERE id = ?`
-      )
-      .get(id);
-      
-      
+  async getById(id) {
+    const autoModel = await this.autoModel.findOne({
+      where: { id },
+    });
 
-    if (auto === undefined) {
-      throw new AutoNotFoundError(`No se encontró el auto con ID: ${id}`);
+    if (!autoModel) {
+      throw new autoIdNotDefinedError(`No se encontró auto con id ${id}`);
     }
 
-    return fromDbToEntity(auto);
+    return fromModelToEntity(autoModel);
   }
 
   /**
    * @return {Array<import('../../entity/auto.js')>}
    */
-  getAll() {
+  async getAll() {
     
-    const autos = this.databaseAdapter
-      .prepare(
-        `SELECT
-        id,
-        marca ,
-        modelo ,
-        año ,
-        kms ,
-        color ,
-        aire ,
-        pasajeros ,
-        man,
-        automatico 
-        FROM autos `
-      )
-      .all();
-    return autos.map((autoData) => fromDbToEntity(autoData));
+    const autos = await this.autoModel.findAll();
+    return autos.map(fromModelToEntity);
+    
   }
-  getAllRentById(id) {
+  // getAllRentById(id) {
     
-    const alquileres = this.databaseAdapter
-      .prepare(
-        `SELECT
-        id,
-        hasta ,
-         desde,
-        fk_auto ,
-        dni_usuario ,
-        telefono ,
-        mail 
+  //   const alquileres = this.databaseAdapter
+  //     .prepare(
+  //       `SELECT
+  //       id,
+  //       hasta ,
+  //        desde,
+  //       fk_auto ,
+  //       dni_usuario ,
+  //       telefono ,
+  //       mail 
         
-        FROM alquilado WHERE fk_auto= ${id}`
-      )
-      .all();
-    return alquileres.map((alquilerData) => alquilerMapper.fromDbToEntity(alquilerData));
-  }
+  //       FROM alquilado WHERE fk_auto= ${id}`
+  //     )
+  //     .all();
+  //   return alquileres.map((alquilerData) => alquilerMapper.fromDbToEntity(alquilerData));
+  // }
 };

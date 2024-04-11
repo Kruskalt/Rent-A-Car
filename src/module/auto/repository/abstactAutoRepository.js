@@ -39,6 +39,6 @@ module.exports = class AbstractClubRepository {
    * @returns {Array<import('../entity/auto')>}
    */
   async getAll() {
-    throw new MethodNotImplementedError();
+    
   }
 };

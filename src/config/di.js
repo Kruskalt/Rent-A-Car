@@ -1,36 +1,71 @@
 // configure DI container
 const path = require('path');
 const { default: DIContainer, object, get, factory } = require('rsdi');
+const { Sequelize } = require('sequelize');
 const multer = require('multer');
-const Sqlite3Database = require('better-sqlite3');
 
 const session = require('express-session');
-const { AutoController, AutoService, AutoRepository } = require('../module/auto/module.js');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const {
+  AutoController,
+  AutoService,
+  AutoRepository,
+  AutoModel,
+} = require("../module/auto/module");
 
-function configureMainDatabaseAdapter() {
-    
 
-  return new Sqlite3Database("./database.db", {
-    verbose: console.log,
+function configureMainSequelizeDatabase() {
+  console.log("la db es ",process.env.DB_PATH )
+  const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'data/database.db',
   });
+  return sequelize;
 }
 
-function configureSession() {
+function configureSessionSequelizeDatabase() {
+  const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'data/session.db',
+  });
+  return sequelize;
+}
+
+/**
+ * @param {DIContainer} container
+ */
+function configureClubModel(container) {
+  AutoModel.setup(container.get('Sequelize'));
+  
+  return AutoModel;
+}
+
+/**
+ * @param {DIContainer} container
+ */
+
+
+/**
+ * @param {DIContainer} container
+ */
+function configureSession(container) { //configurar la sesion
   const ONE_WEEK_IN_SECONDS = 604800000;
 
+  const sequelize = container.get('SessionSequelize');
   const sessionOptions = {
-    secret: 'keyboard cat',
+    store: new SequelizeStore({ db: sequelize }),
+    secret: 'ke', //key de la aplicacion
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: ONE_WEEK_IN_SECONDS },
+    cookie: { maxAge: ONE_WEEK_IN_SECONDS }, //cuanto dura un cookie, cada una semana tener que volverse a loggear
   };
   return session(sessionOptions);
 }
 
-function configureMulter() {
+function configureMulter() { //para que se suban con la extension adecuada
   const storage = multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, process.env.CRESTS_UPLOAD_DIR);
+      cb(null, process.env.CRESTS_UPLOAD_DIR);// va al archivo .env
     },
     filename(req, file, cb) {
       // https://stackoverflow.com/questions/31592726/how-to-store-a-file-with-file-extension-with-multer
@@ -47,26 +82,36 @@ function configureMulter() {
  */
 function addCommonDefinitions(container) {
   container.addDefinitions({
-    MainDatabaseAdapter: factory(configureMainDatabaseAdapter),
+    Sequelize: factory(configureMainSequelizeDatabase),
+    SessionSequelize: factory(configureSessionSequelizeDatabase),
     Session: factory(configureSession),
-    Multer: factory(configureMulter),
+    Multer: factory(configureMulter), //subir cosas al servidor 
   });
 }
 
 /**
  * @param {DIContainer} container
  */
-function addAutoModuleDefinitions(container) {
+function addClubModuleDefinitions(container) {
   container.addDefinitions({
-    AutoController: object(AutoController).construct(get('Multer'), get('AutoService')),
+    AutoController: object(AutoController).construct(
+      get('Multer'),
+      get('AutoService'),
+      
+    ),
     AutoService: object(AutoService).construct(get('AutoRepository')),
-    AutoRepository: object(AutoRepository).construct(get('MainDatabaseAdapter')),
+    AutoRepository: object(AutoRepository).construct(get("AutoModel")),
+    AutoModel: factory(configureClubModel),
   });
 }
 
-module.exports = function configureDI() {
+/**
+ * @param {DIContainer} container
+ */
+
+module.exports = function configureDI() {//exporta la funcion que configura el di
   const container = new DIContainer();
-  addCommonDefinitions(container);
-  addAutoModuleDefinitions(container);
-  return container;
+  addCommonDefinitions(container); //pasamos el contenedor para agregarle las definiciones
+  addClubModuleDefinitions(container);
+  return container; //contiene todas las dependencias necesarias.
 };
