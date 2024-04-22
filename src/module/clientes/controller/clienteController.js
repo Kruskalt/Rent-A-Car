@@ -1,24 +1,21 @@
-const { fromDataToEntity } = require('../mapper/autoMapper');
-//const alquilerMapper = require('../mapper/alquilerMapper');
+const { fromDataToEntity } = require('../mapper/clienteMapper');
 const AutoIdNotDefinedError = require('./error/autoIdNotDefinedError');
 const AbstractController = require('../../abstractController');
 
-module.exports = class autoController extends AbstractController {
+module.exports = class clienteController extends AbstractController {
   /**
-   * @param {import('../service/autoService')} autoService
+   * @param {import('../service/clienteService')} clienteService
    */
-  constructor(uploadMiddleware, autoService) {
-    super();
-    this.ROUTE_BASE = '/auto';
-    this.uploadMiddleware = uploadMiddleware;
-    this.autoService = autoService;
+  constructor( clienteService) {
+    super();  
+    this.clienteService = clienteService;
   }
 
   /**
    * @param {import('express').Application} app
    */
   configureRoutes(app) {
-    const ROUTE = this.ROUTE_BASE;
+    const ROUTE = '/cliente';
 
     // Nota: el `bind` es necesario porque estamos atando el callback a una función miembro de esta clase
     // y no a la clase en si.
@@ -28,8 +25,6 @@ module.exports = class autoController extends AbstractController {
     app.get(`${ROUTE}/view/:id`, this.view.bind(this));
     app.post(`${ROUTE}/save`, this.save.bind(this));
     app.get(`${ROUTE}/delete/:id`, this.delete.bind(this));
-    app.get(`${ROUTE}/rent/:id`, this.rent.bind(this));
-    app.post(`${ROUTE}/rented`, this.rented.bind(this));
   }
 
   /**
@@ -37,11 +32,9 @@ module.exports = class autoController extends AbstractController {
    * @param {import('express').Response} res
    */
   async index(req, res) {
-    
-    
-    const autos = await this.autoService.getAll();
+    const autos = await this.clienteService.getAll();
     const { errors, messages } = req.session;
-    res.render('auto/view/index.html', { data: {  autos }, messages, errors });
+    res.render('clientes/view/index.html', { data: {  autos }, messages, errors });
     req.session.errors = [];
     req.session.messages = [];
   }

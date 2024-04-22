@@ -13,9 +13,15 @@ const {
   AutoModel,
 } = require("../module/auto/module");
 
+const{
+  ClienteController,
+  ClienteService,
+  ClienteRepository,
+  ClienteModel,
+}= require("../module/clientes/module")
+
 
 function configureMainSequelizeDatabase() {
-  console.log("la db es ",process.env.DB_PATH )
   const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: 'data/database.db',
@@ -43,7 +49,11 @@ function configureClubModel(container) {
 /**
  * @param {DIContainer} container
  */
-
+function configureClienteModel(container) {
+  ClienteModel.setup(container.get('Sequelize'));
+  
+  return ClienteModel;
+}
 
 /**
  * @param {DIContainer} container
@@ -97,11 +107,22 @@ function addClubModuleDefinitions(container) {
     AutoController: object(AutoController).construct(
       get('Multer'),
       get('AutoService'),
-      
+      get('ClienteService')
     ),
     AutoService: object(AutoService).construct(get('AutoRepository')),
     AutoRepository: object(AutoRepository).construct(get("AutoModel")),
     AutoModel: factory(configureClubModel),
+  });
+}
+/**
+ * @param {DIContainer} container
+ */
+function addClienteModuleDefinitions(container) {
+  container.addDefinitions({
+    ClienteController: object(ClienteController).construct(get('ClienteService')),
+    ClienteService: object(ClienteService).construct(get('ClienteRepository')),
+    ClienteRepository: object(ClienteRepository).construct(get("ClienteModel")),
+    ClienteModel: factory(configureClienteModel),
   });
 }
 
@@ -113,5 +134,6 @@ module.exports = function configureDI() {//exporta la funcion que configura el d
   const container = new DIContainer();
   addCommonDefinitions(container); //pasamos el contenedor para agregarle las definiciones
   addClubModuleDefinitions(container);
+  addClienteModuleDefinitions(container)
   return container; //contiene todas las dependencias necesarias.
 };
