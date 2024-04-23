@@ -1,5 +1,5 @@
 const { fromDataToEntity } = require('../mapper/clienteMapper');
-const AutoIdNotDefinedError = require('./error/autoIdNotDefinedError');
+const ClienteIdNotDefinedError = require('./error/clienteIdNotDefinedError');
 const AbstractController = require('../../abstractController');
 
 module.exports = class clienteController extends AbstractController {
@@ -32,9 +32,9 @@ module.exports = class clienteController extends AbstractController {
    * @param {import('express').Response} res
    */
   async index(req, res) {
-    const autos = await this.clienteService.getAll();
+    const clientes = await this.clienteService.getAll();
     const { errors, messages } = req.session;
-    res.render('clientes/view/index.html', { data: {  autos }, messages, errors });
+    res.render('clientes/view/index.html', { data: {  clientes }, messages, errors });
     req.session.errors = [];
     req.session.messages = [];
   }
@@ -44,7 +44,7 @@ module.exports = class clienteController extends AbstractController {
    * @param {import('express').Response} res
    */
   async create(req, res) {
-    res.render('auto/view/form.html');
+    res.render('clientes/view/form.html');
   }
 
   /**
@@ -55,16 +55,16 @@ module.exports = class clienteController extends AbstractController {
     const { id } = req.params;
     
     if (!id) {
-      throw new AutoIdNotDefinedError();
+      throw new ClienteIdNotDefinedError();
     }
 
     try {
-      const auto = await this.autoService.getById(id);
+      const cliente = await this.clienteService.getById(id);
       
-      res.render('auto/view/form.html', { data: {  auto } });
+      res.render('clientes/view/form.html', { data: {  cliente: cliente } });
     } catch (e) {
       req.session.errors = [e.message, e.stack];
-      res.redirect('/auto');
+      res.redirect('/cliente');
     }
   }
 
@@ -76,7 +76,7 @@ module.exports = class clienteController extends AbstractController {
     const { id } = req.params;
     
     if (!id) {
-      throw new AutoIdNotDefinedError();
+      throw new ClienteIdNotDefinedError();
     }
 
     try {
@@ -115,19 +115,19 @@ module.exports = class clienteController extends AbstractController {
    */
   async save(req, res) {
     try {
-      const auto = fromDataToEntity(req.body);
-      console.log("estoy en autoController save", req.body)
+      const cliente = fromDataToEntity(req.body);
+      console.log("estoy en clienteController save", req.body)
       
-      const savedAuto = await this.autoService.save(auto);
-      if (auto.id) {
-        req.session.messages = [`El auto con id ${auto.id} se actualizó exitosamente`];
+      const savedCliente = await this.clienteService.save(cliente);
+      if (cliente.id) {
+        req.session.messages = [`El cliente con id ${cliente.id} se actualizó exitosamente`];
       } else {
-        req.session.messages = [`Se creó el auto con id ${savedAuto.id} (${savedAuto.name})`];
+        req.session.messages = [`Se creó el cliente con id ${savedCliente.id} (${savedCliente.name})`];
       }
-      res.redirect('/auto');
+      res.redirect('/cliente');
     } catch (e) {
       req.session.errors = [e.message, e.stack];
-      res.redirect('/auto');
+      res.redirect('/cliente');
     }
   }
 

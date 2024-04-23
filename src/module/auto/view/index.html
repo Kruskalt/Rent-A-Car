@@ -16,11 +16,17 @@
 </div>
 
 {% endfor %}
-<nav class="level-right">
+<nav class="level-left">
+    <div class="level-item">
+        <a href="/cliente/create" class="button is-primary is-large">
+            <span class="icon"><i class="fa-solid fas fa-user"></i></span>
+            <span>Agregar Cliente</span>
+        </a>
+    </div>
     <div class="level-item">
         <a href="/auto/create" class="button is-primary is-large">
-            <span class="icon"><i class="fas fa-futbol"></i></span>
-            <span>Agregar</span>
+            <span class="icon"><i class="fa fas fa-car"></i></span>
+            <span>Agregar Auto</span>
         </a>
     </div>
 </nav>
@@ -46,16 +52,7 @@
         </thead>
         <!-- el tfoot va después del thead en caso de que el contenido sea muy largo -->
         <tfoot>
-            <tr>
-                <th colspan="14">
-                    <div class="level-right">
-                        <a href="/auto/create" class="button is-primary is-large">
-                            <span class="icon"><i class="fas fa-futbol"></i></span>
-                            <span>Agregar</span>
-                        </a>
-                    </div>
-                </th>
-            </tr>
+           
         </tfoot>
         <tbody>
             {% for auto in data.autos %}

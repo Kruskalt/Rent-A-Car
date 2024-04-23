@@ -1,5 +1,6 @@
 module.exports = class Cliente {
   constructor({
+    id,
     nombre,
     apellido,
     tipoDni,
@@ -9,6 +10,7 @@ module.exports = class Cliente {
     email,
     nacimiento,
   }) {
+    this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
     this.tipoDni = tipoDni;

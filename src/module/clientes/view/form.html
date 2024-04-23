@@ -1,28 +1,28 @@
 {% extends 'view/layout/base.html' %}
 
 {% block body %}
-{% set auto = data.auto %}
+{% set cliente = data.cliente %}
 
 <div class="level-left">
   <div class="level-item">
     <h1 class="title is-1">
-      {{"Editando auto ID: " + auto.id if auto.id else "Nuevo auto"}}
+      {{"Editando cliente ID: " + cliente.id if cliente.id else "Nuevo cliente"}}
     </h1>
   </div>
   <div class="level-item">
-    <span><a class="button is-link" href="/auto">Cancelar</a></span>
+    <span><a class="button is-link" href="/cliente">Cancelar</a></span>
   </div>
 </div>
 
 <hr />
 
-<form action="/auto/save" method="POST" enctype="application/json">
-  <input type="hidden" name="id" value="{{auto.id}}" readonly />
+<form action="/cliente/save" method="POST" enctype="application/json">
+  <input type="hidden" name="id" value="{{cliente.id}}" readonly />
 
   <div class="field">
-    <label class="label">Marca</label>
+    <label class="label">Nombre</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="marca"  placeholder="Toyota" value="{{auto.marca}}" />
+      <input class="input" type="text" name="nombre"  placeholder="Nazareno" value="{{cliente.nombre}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-signature"></i>
       </span>
@@ -30,9 +30,9 @@
   </div>
 
   <div class="field">
-    <label class="label">Modelo</label>
+    <label class="label">Apellido</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="modelo" placeholder="Corolla Familiar" value="{{auto.modelo}}" />
+      <input class="input" type="text" name="apellido" placeholder="Avalos" value="{{cliente.apellido}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-compress"></i>
       </span>
@@ -40,9 +40,9 @@
   </div>
 
   <div class="field">
-    <label class="label">Año</label>
+    <label class="label">Tipo-DNI</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="año"  value="{{auto.año}}" />
+      <input class="input" type="text" name="tipo-dni"  value="{{cliente.tipoDni}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-compress"></i>
       </span>
@@ -51,9 +51,9 @@
 
   <div class="field">
     
-    <label class="label">Kms</label>
+    <label class="label">Nro-DNI</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="kms"  value="{{auto.kms}}" />
+      <input class="input" type="text" name="nro-dni"  value="{{cliente.nroDni}}" />
       <span class=" icon is-small is-left">
         <i class="fas fa-shield-alt"></i>
       </span>
@@ -61,10 +61,10 @@
   </div>
 
   <div class="field">
-    <label class="label">Color</label>
+    <label class="label">Direccion</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="color" 
-        value="{{auto.color}}" />
+      <input class="input" type="text" name="direccion" 
+        value="{{cliente.direccion}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-map-marked"></i>
       </span>
@@ -72,9 +72,9 @@
   </div>
 
   <div class="field">
-    <label class="label">Aire</label>
+    <label class="label">Telefono</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="aire" placeholder="si" value="{{auto.aire}}" />
+      <input class="input" type="text" name="telefono" placeholder="1133844810" value="{{cliente.telefono}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-phone"></i>
       </span>
@@ -82,10 +82,10 @@
   </div>
 
   <div class="field">
-    <label class="label">Pasajeros</label>
+    <label class="label">Email</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="pasajeros" placeholder="5"
-        value="{{auto.pasajeros}}" />
+      <input class="input" type="text" name="email" placeholder="example@gmail.com"
+        value="{{cliente.email}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-globe"></i>
       </span>
@@ -93,29 +93,14 @@
   </div>
 
   <div class="field">
-    <label class="label">Manual</label>
+    <label class="label">Nacimiento</label>
     <div class="control has-icons-left">
-      <input class="input" type="text" name="manual" placeholder="si" value="{{auto.manual}}" />
+      <input class="input" type="text" name="nacimiento" placeholder="13/10/2000" value="{{cliente.nacimiento}}" />
       <span class="icon is-small is-left">
         <i class="fas fa-globe"></i>
       </span>
     </div>
   </div>
-
-  <div class="field">
-    <label class="label">Automatico</label>
-    <div class="control has-icons-left">
-      <input class="input" type="text" name="automatico" placeholder="si" value="{{auto.automatico}}" />
-      <span class="icon is-small is-left">
-        <i class="fas fa-file-signature"></i>
-      </span>
-    </div>
-  </div>
-
-  
-
-  
-
   <input type="submit" class="button is-primary is-large" value="Guardar" />
   <hr />
 </form>

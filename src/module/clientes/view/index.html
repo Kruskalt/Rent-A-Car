@@ -1,7 +1,7 @@
 {% extends 'view/layout/base.html' %}
 
 {% block body %}
-<h1 class="title is-1">Índice de autos</h1>
+<h1 class="title is-1">Índice de clientes</h1>
 
 {% for error in errors %}
 
@@ -16,11 +16,11 @@
 </div>
 
 {% endfor %}
-<nav class="level-right">
+<nav class="level-left">
     <div class="level-item">
-        <a href="/auto/create" class="button is-primary is-large">
-            <span class="icon"><i class="fas fa-futbol"></i></span>
-            <span>Agregar</span>
+        <a href="/cliente/create" class="button is-primary is-large">
+            <span class="icon"><i class="fa-solid fas fa-user"></i></span>
+            <span>Agregar Cliente</span>
         </a>
     </div>
 </nav>
@@ -30,69 +30,43 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Año</th>
-                <th>Kms</th>
-                <th>Color</th>
-                <th>Aire</th>
-                <th>Pasajeros</th>
-                <th>Manual</th>
-                <th>Automatico</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-                <th>Alquilar</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Tipo-DNI</th>
+                <th>Nro-DNI</th>
+                <th>Direccion</th>
+                <th>Telefono</th>
+                <th>Email</th>
+                <th>Nacimiento</th>
             </tr>
         </thead>
         <!-- el tfoot va después del thead en caso de que el contenido sea muy largo -->
         <tfoot>
-            <tr>
-                <th colspan="14">
-                    <div class="level-right">
-                        <a href="/auto/create" class="button is-primary is-large">
-                            <span class="icon"><i class="fas fa-futbol"></i></span>
-                            <span>Agregar</span>
-                        </a>
-                    </div>
-                </th>
-            </tr>
+            
         </tfoot>
         <tbody>
-            {% for auto in data.autos %}
+            {% for cliente in data.clientes %}
 
             <tr>
-                <td>{{auto.id}}</td>
-                <td>{{auto.marca}}</td>
-                <td>{{auto.modelo}}</td>
-                <td>{{auto.año}}</td>
+                <td>{{cliente.id}}</td>
+                <td>{{cliente.nombre}}</td>
+                <td>{{cliente.apellido}}</td>
+                <td>{{cliente.tipoDni}}</td>
 
-                <td>{{auto.kms}}</td>
-                <td>{{auto.color}}</td>
-                <td>{{auto.aire}}</td>
-                <td>{{auto.pasajeros}}</td>
-                <td>{% if auto.manual == 1 %}
-                    si
-                    {% else %}
-                    no
-                    {% endif %}</td>
-                <td>{% if auto.automatico == 1 %}
-                    si
-                    {% else %}
-                    no
-                    {% endif %}</td>
+                <td>{{cliente.nroDni}}</td>
+                <td>{{cliente.direccion}}</td>
+                <td>{{cliente.telefono}}</td>
+                <td>{{cliente.email}}</td>
+                <td>{{cliente.nacimiento}}</td>
                 <td>
-                    <a href="/auto/view/{{auto.id}}"><span class="icon"><i class="fas fa-edit"></i></span>editar</a>
+                    <a href="/cliente/view/{{cliente.id}}"><span class="icon"><i class="fas fa-edit"></i></span>editar</a>
                 </td>
                 <td>
-                    <a href="/auto/delete/{{auto.id}}" class="action-delete" data-id="{{auto.id}}">
+                    <a href="/cliente/delete/{{cliente.id}}" class="action-delete" data-id="{{cliente.id}}">
                         <span class="icon"><i class="fas fa-trash"></i></span>eliminar
                     </a>
                 </td>
-                <td>
-                    <a href="/auto/rent/{{auto.id}}" class="action-rent" data-id="{{auto.id}}">
-                        <span class="icon"> <i class="fas fa-car"></i></span>alquilar
-                    </a>
-                </td>
+                
                
             </tr>
             {% endfor %}

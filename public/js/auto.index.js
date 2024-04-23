@@ -5,7 +5,7 @@ document.querySelectorAll('.action-delete').forEach(($deleteAction) => {
       const { id, name } = $deleteAction.dataset;
       if (
         !confirm(
-          `Confirma que desea eliminar el club ${name} (ID: ${id})? Esta operación no se puede deshacer`
+          `Confirma que desea eliminar el cliente ${name} (ID: ${id})? Esta operación no se puede deshacer`
         )
       ) {
         e.preventDefault();
