@@ -116,7 +116,7 @@ module.exports = class clienteController extends AbstractController {
   async save(req, res) {
     try {
       const cliente = fromDataToEntity(req.body);
-      console.log("estoy en clienteController save", req.body)
+      console.log("estoy en clienteController save", cliente)
       
       const savedCliente = await this.clienteService.save(cliente);
       if (cliente.id) {
@@ -138,12 +138,12 @@ module.exports = class clienteController extends AbstractController {
   async delete(req, res) {
     try {
       const { id } = req.params;
-      const auto = await this.autoService.getById(id);
-      await this.autoService.delete(auto);
-      req.session.messages = [`Se eliminó el auto ID: ${id} (${auto.name})`];
+      const cliente = await this.clienteService.getById(id);
+      await this.clienteService.delete(cliente);
+      req.session.messages = [`Se eliminó el cliente ID: ${id} (${cliente.nombre})`];
     } catch (e) {
       req.session.errors = [e.message, e.stack];
     }
-    res.redirect('/auto');
+    res.redirect('/cliente');
   }
 };

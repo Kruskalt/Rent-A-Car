@@ -10,11 +10,11 @@ module.exports = class Cliente {
     email,
     nacimiento,
   }) {
-    this.id = id;
+    this.id = parseInt(id,10);
     this.nombre = nombre;
     this.apellido = apellido;
     this.tipoDni = tipoDni;
-    this.nroDni = nroDni;
+    this.nroDni = parseInt(nroDni,10);
     this.direccion = direccion;
     this.telefono = telefono;
     this.email = email;

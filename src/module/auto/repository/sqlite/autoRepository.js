@@ -5,7 +5,7 @@ const { fromDbToEntity,fromModelToEntity } = require('../../mapper/autoMapper.js
 const alquilerMapper = require('../../mapper/alquilerMapper.js');
 module.exports = class AutoRepository extends AbstractAutoRepository {
   /**
-   * @param {typeof import('../../model/autoModel.js')} clubModel
+   * @param {typeof import('../../model/autoModel.js')} autoModel
    * *
    */
   constructor(autoModel) {
@@ -13,40 +13,6 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
     this.autoModel = autoModel;
     
   }
-  // /**
-  //  * @param {import('../../entity/alquiler.js')} alquiler
-  //  * @returns {import('../../entity/alquiler.js')} 
-  //  */
-  // rent(alquiler) {
-    
-  //     const statement = this.databaseAdapter.prepare(`
-  //       INSERT INTO alquilado(
-  //           hasta,
-  //           desde ,
-  //           fk_auto ,
-  //           dni_usuario ,
-  //           telefono ,
-  //           mail 
-           
-          
-  //       ) VALUES(?, ?, ?, ?, ?, ?)
-  //     `);
-
-  //     const result = statement.run(
-  //       alquiler.hasta,
-  //       alquiler.desde,
-  //       alquiler.fkAuto,
-  //       alquiler.dniUsuario,
-  //       alquiler.telefono,
-  //       alquiler.mail,
-  //     );
-  //     return alquiler;
-  //   }
-
-   
-  
-
-
   /**
    * @param {import('../../entity/auto.js')} auto
    * @returns {Promise<import('../../entity/auto.js')>}
@@ -54,8 +20,10 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
   async save(auto) {
     let autoModel;
 
-    const buildOptions = { isNewRecord: !auto.id, include: this.areaModel };
+    const buildOptions = { isNewRecord: !auto.id };
     autoModel = this.autoModel.build(auto, buildOptions);
+
+    
     
     autoModel = await autoModel.save();
 
@@ -70,8 +38,9 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
     if (!auto || !auto.id) {
       throw new autoIdNotDefinedError();
     }
-
-    return Boolean(await this.autoModel.destroy({ where: { id: auto.id } }));
+    const deleteResult = Boolean(await this.autoModel.destroy({ where: { id: auto.id } }));
+    
+    return deleteResult;
   }
 
   /**
@@ -82,9 +51,9 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
     const autoModel = await this.autoModel.findOne({
       where: { id },
     });
-
-    if (!autoModel) {
-      throw new autoIdNotDefinedError(`No se encontró auto con id ${id}`);
+  
+    if (autoModel == null) {
+      throw new AutoNotFoundError(`No se encontró auto con id ${id}`);
     }
 
     return fromModelToEntity(autoModel);

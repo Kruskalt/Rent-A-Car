@@ -1,1 +1,1 @@
-module.exports = class ClubNotFoundError extends Error {};
+module.exports = class AutoNotFoundError extends Error {};

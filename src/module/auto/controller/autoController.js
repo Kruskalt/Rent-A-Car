@@ -123,9 +123,10 @@ module.exports = class autoController extends AbstractController {
   async save(req, res) {
     try {
       const auto = fromDataToEntity(req.body);
-      console.log("estoy en autoController save", req.body)
+      console.log("estoy en autoController save", auto)
       
       const savedAuto = await this.autoService.save(auto);
+      console.log(savedAuto)
       if (auto.id) {
         req.session.messages = [`El auto con id ${auto.id} se actualizó exitosamente`];
       } else {

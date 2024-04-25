@@ -35,7 +35,7 @@ module.exports = class autoModel extends Model {
       pasajeros: {
         type: DataTypes.INTEGER,
       },
-      man: {
+      manual: {
         type: DataTypes.INTEGER,
       },
       automatico: {
@@ -57,14 +57,5 @@ module.exports = class autoModel extends Model {
     }
 );
     return autoModel;
-  }
-
-  
-  /**
-   *
-   * @param {import('../../area/model/areaModel')} AreaModel
-   */
-  static setupAssociations(AreaModel) {
-    autoModel.belongsTo(AreaModel, { foreignKey: "area_id" });
   }
 };
