@@ -85,7 +85,7 @@ module.exports = class AutoRepository extends AbstractClienteRepository {
     });
 
     if (!clienteModel) {
-      throw new ClienteIdNotDefinedError(`No se encontró el cliente con id ${id}`);
+      throw new ClienteNotFoundError(`No se encontró el cliente con id ${id}`);
     }
 
     return fromModelToEntity(clienteModel);
