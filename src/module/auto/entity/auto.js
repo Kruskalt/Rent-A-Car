@@ -10,6 +10,7 @@ module.exports = class Auto {
       pasajeros,
       manual,
       automatico,
+      precio,
       
     }) {
       this.id = parseInt(id);
@@ -22,6 +23,7 @@ module.exports = class Auto {
       this.pasajeros = parseInt(pasajeros);
       this.manual = manual;
       this.automatico = automatico;
+      this.precio = precio;
       
     }
   };

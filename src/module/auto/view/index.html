@@ -45,6 +45,7 @@
                 <th>Pasajeros</th>
                 <th>Manual</th>
                 <th>Automatico</th>
+                <th>Precio</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
                 <th>Alquilar</th>
@@ -77,6 +78,9 @@
                     {% else %}
                     no
                     {% endif %}</td>
+                <td>
+                    {{auto.precio}}
+                </td>
                 <td>
                     <a href="/auto/view/{{auto.id}}"><span class="icon"><i class="fas fa-edit"></i></span>editar</a>
                 </td>

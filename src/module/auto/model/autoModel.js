@@ -6,56 +6,60 @@ module.exports = class autoModel extends Model {
    * @returns {typeof autoModel}
    */
   static setup(sequelizeInstance) {
-    autoModel.init({
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-        unique: true,
+    autoModel.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          primaryKey: true,
+          autoIncrement: true,
+          unique: true,
+        },
+        marca: {
+          type: DataTypes.STRING,
+        },
+        modelo: {
+          type: DataTypes.STRING,
+        },
+        año: {
+          type: DataTypes.STRING,
+        },
+        kms: {
+          type: DataTypes.INTEGER,
+        },
+        color: {
+          type: DataTypes.STRING,
+        },
+        aire: {
+          type: DataTypes.STRING,
+        },
+        pasajeros: {
+          type: DataTypes.INTEGER,
+        },
+        manual: {
+          type: DataTypes.INTEGER,
+        },
+        automatico: {
+          type: DataTypes.INTEGER,
+        },
+        precio: {
+          type: DataTypes.INTEGER,
+        },
+        updated_at: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.NOW,
+        },
+        created_at: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.NOW,
+        },
       },
-      marca: {
-        type: DataTypes.STRING,
-      },
-      modelo: {
-        type: DataTypes.STRING,
-      },
-      año: {
-        type: DataTypes.STRING,
-      },
-      kms: {
-        type: DataTypes.INTEGER,
-      },
-      color: {
-        type: DataTypes.STRING,
-      },
-      aire: {
-        type: DataTypes.STRING,
-      },
-      pasajeros: {
-        type: DataTypes.INTEGER,
-      },
-      manual: {
-        type: DataTypes.INTEGER,
-      },
-      automatico: {
-        type: DataTypes.INTEGER,
-      },
-      updated_at: {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      created_at: {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-    },
-    {
+      {
         sequelize: sequelizeInstance,
-        modelName: 'auto',
+        modelName: "auto",
         timestamps: false,
-    }
-);
+      }
+    );
     return autoModel;
   }
 };

@@ -24,7 +24,8 @@ function fromDataToEntity({
   aire,
   pasajeros,
   manual,
-  automatico
+  automatico,
+  precio,
 }) {
   if (manual === "si") {
     manual = 1
@@ -46,7 +47,8 @@ function fromDataToEntity({
     aire,
     pasajeros,
     manual,
-    automatico
+    automatico,
+    precio
   });
 }
 
@@ -65,7 +67,8 @@ function fromDbToEntity({
   aire,
   pasajeros,
   man: manual,
-  automatico
+  automatico,
+  precio
 }) {
 
   return new Auto({
@@ -78,7 +81,8 @@ function fromDbToEntity({
     aire,
     pasajeros,
     manual,
-    automatico
+    automatico,
+    precio
   });
 }
 
