@@ -13,7 +13,13 @@ module.exports = class Alquiler {
       this.id = id;
       this.hasta = hasta;
       this.desde = desde;
+      /**
+     * @type {import('../../auto/entity/auto');} this.auto
+     */
       this.auto = auto;
+      /**
+     * @type {import('../../clientes/entity/cliente');} this.cliente
+     */
       this.cliente= cliente;
       this.precioUnitario = precioUnitario;
       this.precioTotal = precioTotal;
