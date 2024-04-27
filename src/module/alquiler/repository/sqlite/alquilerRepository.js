@@ -1,10 +1,10 @@
-const AbstractAutoRepository = require("../abstactAutoRepository.js");
-const AutoNotFoundError = require("../error/autoNotFoundError.js");
-const autoIdNotDefinedError = require("../error/autoIdNotDefinedError.js");
-const { fromModelToEntity } = require("../../mapper/autoMapper.js");
+const AbstractAlquilerRepository = require("../abstactAlquilerRepository.js");
+const AlquilerNotFoundError = require("../error/alquilerNotFoundError.js");
+const alquilerIdNotDefinedError = require("../error/alquilerIdNotDefinedError.js");
+const { fromModelToEntity } = require("../../mapper/alquilerMapper.js");
 const alquilerMapper = require("../../mapper/alquilerMapper.js");
 
-module.exports = class AutoRepository extends AbstractAutoRepository {
+module.exports = class AutoRepository extends AbstractAlquilerRepository {
   /**
    * @param {typeof import('../../model/alquilerModel.js')} alquilerModel
    * *@param {typeof import('../../../auto/model/autoModel.js')} autoModel
@@ -42,7 +42,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
    */
   async delete(auto) {
     if (!auto || !auto.id) {
-      throw new autoIdNotDefinedError();
+      throw new alquilerIdNotDefinedError();
     }
     const deleteResult = Boolean(
       await this.autoModel.destroy({ where: { id: auto.id } })
@@ -61,7 +61,7 @@ module.exports = class AutoRepository extends AbstractAutoRepository {
     });
 
     if (autoModel == null) {
-      throw new AutoNotFoundError(`No se encontró auto con id ${id}`);
+      throw new AlquilerNotFoundError(`No se encontró auto con id ${id}`);
     }
 
     return fromModelToEntity(autoModel);
