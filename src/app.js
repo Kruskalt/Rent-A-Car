@@ -5,6 +5,7 @@ const nunjucks = require('nunjucks');
 const configureDependencyInjection = require('./config/di.js');
 const { init: initClubModule } = require('./module/auto/module');
 const { init: initClienteModule } = require('./module/clientes/module.js');
+const { init: initAlquilerModule } = require('./module/alquiler/module.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,6 +24,7 @@ app.use(container.get('Session'));
 
 initClubModule(app, container);
 initClienteModule(app, container);
+initAlquilerModule(app, container);
 console.log("la db es ", process.env.DB_PATH)
 /**
  * @type {import('./module/auto/controller/autoController')} controller;

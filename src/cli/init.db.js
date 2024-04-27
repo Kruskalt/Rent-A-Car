@@ -13,6 +13,7 @@ const mainDb = container.get('Sequelize');
 
 container.get('AutoModel');
 container.get('ClienteModel')
+container.get('AlquilerModel')
 
 mainDb.sync();
 
