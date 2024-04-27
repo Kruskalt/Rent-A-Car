@@ -20,6 +20,13 @@ const{
   ClienteModel,
 }= require("../module/clientes/module")
 
+const{
+  AlquilerController,
+  AlquilerService,
+  AlquilerModel,
+  AlquilerRepository,
+}= require("../module/alquiler/module")
+
 
 function configureMainSequelizeDatabase() {
   const sequelize = new Sequelize({
@@ -54,6 +61,16 @@ function configureClienteModel(container) {
   
   return ClienteModel;
 }
+/**
+ * @param {DIContainer} container
+ */
+function configureAlquilerModel(container) {
+  AlquilerModel.setup(container.get('Sequelize'));
+  AlquilerModel.setupAssociations(container.get('AutoModel'));
+  AlquilerModel.setupAssociations(container.get('ClienteModel'));
+  return AlquilerModel;
+}
+
 
 /**
  * @param {DIContainer} container
@@ -102,7 +119,7 @@ function addCommonDefinitions(container) {
 /**
  * @param {DIContainer} container
  */
-function addClubModuleDefinitions(container) {
+function addAutoModuleDefinitions(container) {
   container.addDefinitions({
     AutoController: object(AutoController).construct(
       get('Multer'),
@@ -125,6 +142,17 @@ function addClienteModuleDefinitions(container) {
     ClienteModel: factory(configureClienteModel),
   });
 }
+/**
+ * @param {DIContainer} container
+ */
+function addAlquilerModuleDefinitions(container) {
+  container.addDefinitions({
+    AlquilerController: object(AlquilerController).construct(get('AlquilerService')),
+    AlquilerService: object(AlquilerService).construct(get('AlquilerRepository')),
+    AlquilerRepository: object(AlquilerRepository).construct(get("AlquilerModel"),get("AutoModel"),get("ClienteModel")),
+    AlquilerModel: factory(configureAlquilerModel),
+  });
+}
 
 /**
  * @param {DIContainer} container
@@ -133,7 +161,8 @@ function addClienteModuleDefinitions(container) {
 module.exports = function configureDI() {//exporta la funcion que configura el di
   const container = new DIContainer();
   addCommonDefinitions(container); //pasamos el contenedor para agregarle las definiciones
-  addClubModuleDefinitions(container);
-  addClienteModuleDefinitions(container)
+  addAutoModuleDefinitions(container);
+  addClienteModuleDefinitions(container);
+  addAlquilerModuleDefinitions(container);
   return container; //contiene todas las dependencias necesarias.
 };
