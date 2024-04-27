@@ -1,22 +1,22 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-unused-vars */
-const AbstractClubRepositoryError = require("./error/abstractClubRepositoryError");
+const AbstractAlquilerRepositoryError = require("./error/abstractAlquilerRepositoryError");
 const MethodNotImplementedError = require("./error/methodNotImplementedError");
 
-module.exports = class AbstractClubRepository {
+module.exports = class AbstractAlquilerRepository {
   constructor() {
-    if (new.target === AbstractClubRepository) {
-      throw new AbstractClubRepositoryError(
+    if (new.target === AbstractAlquilerRepository) {
+      throw new AbstractAlquilerRepositoryError(
         'No se puede instanciar el repositorio de autos abstracto.'
       );
     }
   }
 
   /**
-   * @param {import('../entity/auto')} auto
-   * @returns {import('../entity/auto')}
+   * @param {import('../entity/alquiler')} alquiler
+   * @returns {import('../entity/alquiler')}
    */
-  async save(auto) {
+  async save(alquiler) {
     throw new MethodNotImplementedError();
   }
 
@@ -29,14 +29,14 @@ module.exports = class AbstractClubRepository {
 
   /**
    * @param {Number} id
-   * @returns {import('../entity/auto')}
+   * @returns {import('../entity/alquiler')}
    */
   async getById(id) {
     throw new MethodNotImplementedError();
   }
 
   /**
-   * @returns {Array<import('../entity/auto')>}
+   * @returns {Array<import('../entity/alquiler')>}
    */
   async getAll() {
     

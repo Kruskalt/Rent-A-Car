@@ -66,8 +66,7 @@ function configureClienteModel(container) {
  */
 function configureAlquilerModel(container) {
   AlquilerModel.setup(container.get('Sequelize'));
-  AlquilerModel.setupAssociations(container.get('AutoModel'));
-  AlquilerModel.setupAssociations(container.get('ClienteModel'));
+  AlquilerModel.setupAssociations(container.get('ClienteModel'),container.get('AutoModel'));
   return AlquilerModel;
 }
 

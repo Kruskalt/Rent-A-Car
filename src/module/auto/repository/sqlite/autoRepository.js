@@ -2,7 +2,7 @@ const AbstractAutoRepository = require('../abstactAutoRepository.js');
 const AutoNotFoundError = require('../error/autoNotFoundError.js');
 const autoIdNotDefinedError = require('../error/autoIdNotDefinedError.js');
 const { fromDbToEntity,fromModelToEntity } = require('../../mapper/autoMapper.js');
-const alquilerMapper = require('../../mapper/alquilerMapper.js');
+
 module.exports = class AutoRepository extends AbstractAutoRepository {
   /**
    * @param {typeof import('../../model/autoModel.js')} autoModel

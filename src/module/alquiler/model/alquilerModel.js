@@ -14,12 +14,6 @@ module.exports = class alquilerModel extends Model {
           autoIncrement: true,
           unique: true,
         },
-        auto: {
-          type: DataTypes.INTEGER,
-        },
-        cliente: {
-          type: DataTypes.INTEGER,
-        },
         precioUnitario: {
           type: DataTypes.INTEGER,
         },
@@ -49,13 +43,13 @@ module.exports = class alquilerModel extends Model {
       },
       {
         sequelize: sequelizeInstance,
-        modelName: "auto",
+        modelName: "alquiler",
         timestamps: false,
       }
     );
     return alquilerModel;
   }
-
+  
   /**
    *
    * @param {import('../../clientes/model/clienteModel')} ClienteModel
