@@ -96,8 +96,8 @@ module.exports = class AutoRepository extends AbstractClienteRepository {
    */
   async getAll() {
     
-    const autos = await this.clienteModel.findAll();
-    return autos.map(fromModelToEntity);
+    const clientes = await this.clienteModel.findAll();
+    return clientes.map(fromModelToEntity);
     
   }
   // getAllRentById(id) {

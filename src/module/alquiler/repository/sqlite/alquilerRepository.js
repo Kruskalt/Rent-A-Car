@@ -29,23 +29,27 @@ module.exports = class AutoRepository extends AbstractAlquilerRepository {
       include: [this.autoModel, this.clienteModel],
     };
     alquilerModel = this.alquilerModel.build(alquiler, buildOptions);
+    console.log("alquilersave", alquilerModel)
     alquilerModel.setDataValue("cliente_id", alquiler.cliente.id);
     alquilerModel.setDataValue("auto_id", alquiler.auto.id);
+    alquilerModel.cliente.isNewRecord = false;
+    alquilerModel.auto.isNewRecord = false;
+    console.log("alquilersavedespues", alquilerModel)
     alquilerModel = await alquilerModel.save();
-
+    console.log("alquilersave", alquilerModel)
     return fromModelToEntity(alquilerModel);
   }
 
   /**
-   * @param {import('../../entity/auto.js')} auto
+   * @param {import('../../entity/alquiler.js')} alquiler
    * @returns {Boolean} devuelve true si se borró algo, false si no se borró nada.
    */
-  async delete(auto) {
-    if (!auto || !auto.id) {
+  async delete(alquiler) {
+    if (!alquiler || !alquiler.id) {
       throw new alquilerIdNotDefinedError();
     }
     const deleteResult = Boolean(
-      await this.autoModel.destroy({ where: { id: auto.id } })
+      await this.alquilerModel.destroy({ where: { id: alquiler.id } })
     );
 
     return deleteResult;
@@ -53,26 +57,27 @@ module.exports = class AutoRepository extends AbstractAlquilerRepository {
 
   /**
    * @param {Number} id
-   * @returns {import('../../entity/auto.js')}
+   * @returns {import('../../entity/alquiler.js')}
    */
   async getById(id) {
-    const autoModel = await this.autoModel.findOne({
+    const alquilerModel = await this.alquilerModel.findOne({
       where: { id },
     });
 
-    if (autoModel == null) {
-      throw new AlquilerNotFoundError(`No se encontró auto con id ${id}`);
+    if (alquilerModel == null) {
+      throw new AlquilerNotFoundError(`No se encontró alquiler con id ${id}`);
     }
 
-    return fromModelToEntity(autoModel);
+    return fromModelToEntity(alquilerModel);
   }
 
   /**
-   * @return {Array<import('../../entity/auto.js')>}
+   * @return {Array<import('../../entity/alquiler.js')>}
    */
   async getAll() {
-    const autos = await this.autoModel.findAll();
-    return autos.map(fromModelToEntity);
+    const alquiler = await this.alquilerModel.findAll();
+    
+    return alquiler.map(fromModelToEntity);
   }
   // getAllRentById(id) {
 

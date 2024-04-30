@@ -1,21 +1,23 @@
-const { fromDataToEntity } = require('../mapper/alquilerMapper');
-const AlquilerIdNotDefinedError = require('./error/alquilerIdNotDefinedError');
-const AbstractController = require('../../abstractController');
+const { fromDataToEntity } = require("../mapper/alquilerMapper");
+const AlquilerIdNotDefinedError = require("./error/alquilerIdNotDefinedError");
+const AbstractController = require("../../abstractController");
 
 module.exports = class AlquilerController extends AbstractController {
   /**
    * @param {import('../service/alquilerService')} alquilerService
    */
-  constructor(alquilerService) {
+  constructor(alquilerService, autoService, clienteService) {
     super();
     this.alquilerService = alquilerService;
+    this.autoService = autoService;
+    this.clienteService = clienteService;
   }
 
   /**
    * @param {import('express').Application} app
    */
   configureRoutes(app) {
-    const ROUTE = '/alquiler';
+    const ROUTE = "/alquiler";
 
     // Nota: el `bind` es necesario porque estamos atando el callback a una función miembro de esta clase
     // y no a la clase en si.
@@ -32,9 +34,14 @@ module.exports = class AlquilerController extends AbstractController {
    * @param {import('express').Response} res
    */
   async index(req, res) {
-    const alquiler = await this.alquilerService.getAll();
+    const alquileres = await this.alquilerService.getAll();
+    console.log(alquileres)
     const { errors, messages } = req.session;
-    res.render('alquiler/view/index.html', { data: { areas: alquiler }, messages, errors });
+    res.render("alquiler/view/index.html", {
+      data: {alquileres} ,
+      messages,
+      errors,
+    });
     req.session.errors = [];
     req.session.messages = [];
   }
@@ -44,7 +51,20 @@ module.exports = class AlquilerController extends AbstractController {
    * @param {import('express').Response} res
    */
   async create(req, res) {
-    res.render('alquiler/view/form.html');
+    const autos = await this.autoService.getAll();
+    const clientes = await this.clienteService.getAll();
+    if (autos.length > 0) {
+      if (clientes.length > 0) {
+        res.render("alquiler/view/form.html",{data: {autos,clientes}});
+      }else{
+        req.session.errors = ['Para crear un alquiler, primero debe crear un cliente'];
+        res.redirect("/cliente");
+      }
+    }else{
+      req.session.errors = ['Para crear un alquiler, primero debe crear un auto'];
+      res.redirect("/auto");
+    }
+    
   }
 
   /**
@@ -59,10 +79,10 @@ module.exports = class AlquilerController extends AbstractController {
 
     try {
       const alquiler = await this.alquilerService.getById(id);
-      res.render('alquiler/view/form.html', { data: { alquiler: alquiler } });
+      res.render("alquiler/view/form.html", { data: { alquiler } });
     } catch (e) {
       req.session.errors = [e.message];
-      res.redirect('/alquiler');
+      res.redirect("/alquiler");
     }
   }
 
@@ -72,17 +92,45 @@ module.exports = class AlquilerController extends AbstractController {
    */
   async save(req, res) {
     try {
-      const alquiler = fromDataToEntity(req.body);
+      console.log("entre en save alquiler")
+      const auto = await this.autoService.getById(req.body.auto_id)
+      console.log("el auto db es ", auto)
+      let reqBody = req.body;
+      reqBody.precioUnitario = auto.precio;
+      reqBody.pagado = false
+      const desde = reqBody.desde;
+      // Dividir la cadena en día, mes y año
+      const partesFechaDesde = desde.split("-");
+      // Crear un objeto de fecha utilizando las partes
+      const desdeFecha = new Date(partesFechaDesde[2], partesFechaDesde[1] - 1, partesFechaDesde[0]);
+      const hasta = reqBody.hasta;
+      // Dividir la cadena en día, mes y año
+      const partesFechaHasta = hasta.split("-");
+      // Crear un objeto de fecha utilizando las partes
+      const hastaFecha = new Date(partesFechaHasta[2], partesFechaHasta[1] - 1, partesFechaHasta[0]);
+
+      const diferenciaDias = Math.ceil((hastaFecha - desdeFecha) / (1000 * 60 * 60 * 24));
+
+      reqBody.precioTotal = diferenciaDias * auto.precio;
+
+      const alquiler = fromDataToEntity(reqBody);
+      console.log("alquiler",alquiler)
       const savedAlquiler = await this.alquilerService.save(alquiler);
+      
       if (alquiler.id) {
-        req.session.messages = [`El alquiler con id ${alquiler.id} se actualizó exitosamente`];
+        req.session.messages = [
+          `El alquiler con id ${alquiler.id} se actualizó exitosamente`,
+        ];
       } else {
-        req.session.messages = [`Se creó el alquiler con id ${savedAlquiler.id} `];
+        req.session.messages = [
+          `Se creó el alquiler con id ${savedAlquiler.id} `,
+        ];
       }
-      res.redirect('/alquiler');
+      res.redirect("/alquiler");
     } catch (e) {
+      console.log("error",e)
       req.session.errors = [e.message];
-      res.redirect('/alquiler');
+      res.redirect("/alquiler");
     }
   }
 
@@ -99,6 +147,6 @@ module.exports = class AlquilerController extends AbstractController {
     } catch (e) {
       req.session.errors = [e.message];
     }
-    res.redirect('/alquiler');
+    res.redirect("/alquiler");
   }
 };

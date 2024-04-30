@@ -1,0 +1,84 @@
+{% extends 'view/layout/base.html' %}
+
+{% block body %}
+<h1 class="title is-1">Índice de alquileres</h1>
+
+{% for error in errors %}
+
+<div class="notification is-danger">
+    {{error}}
+</div>
+{% endfor %}
+
+{% for message in messages %}
+<div class="notification is-success">
+    {{message}}
+</div>
+
+{% endfor %}
+<nav class="level-left">
+    <div class="level-item">
+        <a href="/alquiler/create" class="button is-primary is-large">
+            <span class="icon"><i class="fa-solid fas fa-user"></i></span>
+            <span>Agregar Alquiler</span>
+        </a>
+    </div>
+</nav>
+
+<div class="table-container">
+    <table class="table is-striped is-hoverable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Auto</th>
+                <th>Cliente</th>
+                <th>Precio Unitario</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Precio Total</th>
+                <th>Medio de Pago</th>
+                <th>Pagado</th>
+                <th>Modificado</th>
+                <th>Creado</th>
+            </tr>
+        </thead>
+        <!-- el tfoot va después del thead en caso de que el contenido sea muy largo -->
+        <tfoot>
+            
+        </tfoot>
+        <tbody>
+            {% for alquiler in data.alquileres %}
+
+            <tr>
+                <td>{{alquiler.id}}</td>
+                <td>{{alquiler.auto.id}}</td>
+                <td>{{alquiler.cliente.id}}</td>
+                <td>{{alquiler.precioUnitario}}</td>
+                <td>{{alquiler.desde}}</td>
+                <td>{{alquiler.hasta}}</td>
+
+                <td>{{alquiler.precioTotal}}</td>
+                <td>{{alquiler.medioDePago}}</td>
+                <td>{{alquiler.pagado}}</td>
+                <td>{{alquiler.modificado}}</td>
+                <td>{{alquiler.creado}}</td>
+                <td>
+                    <a href="/alquiler/view/{{alquiler.id}}"><span class="icon"><i class="fas fa-edit"></i></span>editar</a>
+                </td>
+                <td>
+                    <a href="/alquiler/delete/{{alquiler.id}}" class="action-delete" data-id="{{alquiler.id}}">
+                        <span class="icon"><i class="fas fa-trash"></i></span>eliminar
+                    </a>
+                </td>
+                
+               
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block footerScripts %}
+<script src="/public/js/alquiler.index.js"></script>
+{% endblock %}

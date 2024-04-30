@@ -146,7 +146,8 @@ function addClienteModuleDefinitions(container) {
  */
 function addAlquilerModuleDefinitions(container) {
   container.addDefinitions({
-    AlquilerController: object(AlquilerController).construct(get('AlquilerService')),
+    AlquilerController: object(AlquilerController).construct(get('AlquilerService'),get('AutoService'),
+    get('ClienteService')),
     AlquilerService: object(AlquilerService).construct(get('AlquilerRepository')),
     AlquilerRepository: object(AlquilerRepository).construct(get("AlquilerModel"),get("AutoModel"),get("ClienteModel")),
     AlquilerModel: factory(configureAlquilerModel),

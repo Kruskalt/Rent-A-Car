@@ -48,7 +48,6 @@
                 <th>Precio</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
-                <th>Alquilar</th>
             </tr>
         </thead>
         <!-- el tfoot va después del thead en caso de que el contenido sea muy largo -->
@@ -89,11 +88,7 @@
                         <span class="icon"><i class="fas fa-trash"></i></span>eliminar
                     </a>
                 </td>
-                <td>
-                    <a href="/auto/rent/{{auto.id}}" class="action-rent" data-id="{{auto.id}}">
-                        <span class="icon"> <i class="fas fa-car"></i></span>alquilar
-                    </a>
-                </td>
+                
                
             </tr>
             {% endfor %}

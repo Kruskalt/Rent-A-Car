@@ -1,0 +1,92 @@
+{% extends 'view/layout/base.html' %}
+
+{% block body %}
+{% set alquiler = data.alquiler %}
+{% set autos = data.autos %}
+{% set clientes = data.clientes %}
+
+<div class="level-left">
+  <div class="level-item">
+    <h1 class="title is-1">
+      {{"Editando alquiler ID: " + alquiler.id if alquiler.id else "Nuevo alquiler"}}
+    </h1>
+  </div>
+  <div class="level-item">
+    <span><a class="button is-link" href="/alquiler">Cancelar</a></span>
+  </div>
+</div>
+
+<hr />
+
+<form action="/alquiler/save" method="POST" enctype="application/json">
+  <input type="hidden" name="id" value="{{alquiler.id}}" readonly />
+
+  <div class="field">
+    <label class="label">Auto</label>
+    <div class="control has-icons-left">
+      <div class="select">
+        <select name="auto_id">
+          <option {{"selected" if auto.id}}>Seleccione</option>
+          {% for auto in autos %}
+          <option value="{{auto.id}}" {{"selected" if auto.id == alquiler.auto.id}}>{{auto.modelo}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <span class="icon is-small is-left">
+        <i class="fas fa-location-arrow"></i>
+      </span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Cliente</label>
+    <div class="control has-icons-left">
+      <div class="select">
+        <select name="cliente_id">
+          <option {{"selected" if cliente.id}}>Seleccione</option>
+          {% for cliente in clientes %}
+          <option value="{{cliente.id}}" {{"selected" if cliente.id == alquiler.cliente.id}}>{{cliente.nombre}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <span class="icon is-small is-left">
+        <i class="fas fa-location-arrow"></i>
+      </span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Desde</label>
+    <div class="control has-icons-left">
+      <input class="input" type="text" name="desde" placeholder="13-10-2000" value="{{alquiler.desde}}" />
+      <span class="icon is-small is-left">
+        <i class="fas fa-globe"></i>
+      </span>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Hasta</label>
+    <div class="control has-icons-left">
+      <input class="input" type="text" name="hasta" placeholder="13-10-2000" value="{{alquiler.hasta}}" />
+      <span class="icon is-small is-left">
+        <i class="fas fa-globe"></i>
+      </span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Medio de pago</label>
+    <div class="control has-icons-left">
+      <input class="input" type="text" name="medioDePago" placeholder="Mercado Pago" value="{{alquiler.medioDePago}}" />
+      <span class="icon is-small is-left">
+        <i class="fas fa-globe"></i>
+      </span>
+    </div>
+  </div>
+
+  
+ 
+  <input type="submit" class="button is-primary is-large" value="Guardar" />
+  <hr />
+</form>
+{% endblock %}
