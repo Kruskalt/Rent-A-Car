@@ -12,5 +12,8 @@
             "name": "autos",
             "database": "${workspaceFolder:Rent-A-Car}/database.db"
         }
+    ],
+    "cSpell.words": [
+        "datehasta"
     ]
 }

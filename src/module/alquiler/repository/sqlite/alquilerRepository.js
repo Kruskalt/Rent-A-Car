@@ -28,15 +28,12 @@ module.exports = class AutoRepository extends AbstractAlquilerRepository {
       isNewRecord: !alquiler.id,
       include: [this.autoModel, this.clienteModel],
     };
-    alquilerModel = this.alquilerModel.build(alquiler, buildOptions);
-    console.log("alquilersave", alquilerModel)
+    alquilerModel = this.alquilerModel.build(alquiler, buildOptions);    
     alquilerModel.setDataValue("cliente_id", alquiler.cliente.id);
     alquilerModel.setDataValue("auto_id", alquiler.auto.id);
     alquilerModel.cliente.isNewRecord = false;
-    alquilerModel.auto.isNewRecord = false;
-    console.log("alquilersavedespues", alquilerModel)
+    alquilerModel.auto.isNewRecord = false;    
     alquilerModel = await alquilerModel.save();
-    console.log("alquilersave", alquilerModel)
     return fromModelToEntity(alquilerModel);
   }
 

@@ -13,8 +13,10 @@ module.exports = class Alquiler {
     created_at: creado,
   }) {
     this.id = parseInt(id);
-    this.hasta = hasta;
-    this.desde = desde;
+    console.log("desde entidad",desde)
+    console.log("hasta entidad",hasta)
+    this.hasta = new Date(hasta);
+    this.desde = new Date(desde);
     /**
      * @type {import('../../auto/entity/auto');} this.auto
      */

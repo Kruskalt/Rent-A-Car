@@ -35,7 +35,6 @@ module.exports = class AlquilerController extends AbstractController {
    */
   async index(req, res) {
     const alquileres = await this.alquilerService.getAll();
-    console.log(alquileres)
     const { errors, messages } = req.session;
     res.render("alquiler/view/index.html", {
       data: {alquileres} ,
@@ -79,7 +78,9 @@ module.exports = class AlquilerController extends AbstractController {
 
     try {
       const alquiler = await this.alquilerService.getById(id);
-      res.render("alquiler/view/form.html", { data: { alquiler } });
+      const autos = await this.autoService.getAll();
+      const clientes = await this.clienteService.getAll();
+      res.render("alquiler/view/form.html", { data: { autos,alquiler,clientes } });
     } catch (e) {
       req.session.errors = [e.message];
       res.redirect("/alquiler");
@@ -92,9 +93,7 @@ module.exports = class AlquilerController extends AbstractController {
    */
   async save(req, res) {
     try {
-      console.log("entre en save alquiler")
-      const auto = await this.autoService.getById(req.body.auto_id)
-      console.log("el auto db es ", auto)
+      const auto = await this.autoService.getById(req.body.auto_id)      
       let reqBody = req.body;
       reqBody.precioUnitario = auto.precio;
       reqBody.pagado = false
@@ -102,19 +101,20 @@ module.exports = class AlquilerController extends AbstractController {
       // Dividir la cadena en día, mes y año
       const partesFechaDesde = desde.split("-");
       // Crear un objeto de fecha utilizando las partes
-      const desdeFecha = new Date(partesFechaDesde[2], partesFechaDesde[1] - 1, partesFechaDesde[0]);
+      const desdeFecha = new Date(partesFechaDesde[0], partesFechaDesde[1] , partesFechaDesde[2]);
       const hasta = reqBody.hasta;
       // Dividir la cadena en día, mes y año
       const partesFechaHasta = hasta.split("-");
       // Crear un objeto de fecha utilizando las partes
-      const hastaFecha = new Date(partesFechaHasta[2], partesFechaHasta[1] - 1, partesFechaHasta[0]);
-
+      
+      const hastaFecha = new Date(partesFechaHasta[0], partesFechaHasta[1] , partesFechaHasta[2]);
+      
       const diferenciaDias = Math.ceil((hastaFecha - desdeFecha) / (1000 * 60 * 60 * 24));
-
+      
       reqBody.precioTotal = diferenciaDias * auto.precio;
-
+      
       const alquiler = fromDataToEntity(reqBody);
-      console.log("alquiler",alquiler)
+      console.log("data a entidad",alquiler)
       const savedAlquiler = await this.alquilerService.save(alquiler);
       
       if (alquiler.id) {

@@ -54,8 +54,8 @@
                 <td>{{alquiler.auto.id}}</td>
                 <td>{{alquiler.cliente.id}}</td>
                 <td>{{alquiler.precioUnitario}}</td>
-                <td>{{alquiler.desde}}</td>
-                <td>{{alquiler.hasta}}</td>
+                <td>{{alquiler.desde.getFullYear()}}-{{alquiler.desde.getMonth() + 1}}-{{alquiler.desde.getDate()}}</td>
+                <td>{{alquiler.hasta.getFullYear()}}-{{alquiler.hasta.getMonth() + 1}}-{{alquiler.hasta.getDate()}}</td>
 
                 <td>{{alquiler.precioTotal}}</td>
                 <td>{{alquiler.medioDePago}}</td>

@@ -12,7 +12,11 @@ const Cliente = require("../../clientes/entity/cliente");
 function fromModelToEntity(model) {
   const auto = new Auto({id: model.auto_id}); // Convierte el modelo de auto a entidad de auto
   const cliente = new Cliente({id: model.cliente_id}) // Convierte el modelo de cliente a entidad de cliente
-  return new Alquiler({ ...model.toJSON(), auto, cliente }); // Combina los datos y crea la entidad de alquiler
+  return new Alquiler({
+    ...model.toJSON(),
+    auto,
+    cliente,
+  }); // Combina los datos y crea la entidad de alquiler
 }
 /**
  *
@@ -40,6 +44,7 @@ function fromDataToEntity({
     precioTotal,
     medioDePago,
     pagado,
+    
   });
 }
 
