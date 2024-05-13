@@ -1,14 +1,14 @@
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const AlquilerRepository = require("../alquilerRepository.js");
-const Alquiler = require("../../../entity/alquiler.js");
+const AlquilerEntity = require("../../../entity/alquiler.js");
 const AlquilerNotFoundError = require("../../error/alquilerNotFoundError.js");
 const AlquilerIdNotDefinedError = require("../../error/alquilerIdNotDefinedError.js");
 const AlquilerModel = require("../../../model/alquilerModel.js");
 const AutoModel = require("../../../../auto/model/autoModel.js");
 const ClienteModel = require("../../../../clientes/model/clienteModel.js");
-const Cliente = require("../../../../clientes/entity/cliente.js");
-const Auto = require("../../../../auto/entity/auto.js");
+const ClienteEntity = require("../../../../clientes/entity/cliente.js");
+const AutoEntity = require("../../../../auto/entity/auto.js");
 const sequelizeInstance = new Sequelize('sqlite::memory');
 
 /**
@@ -16,8 +16,8 @@ const sequelizeInstance = new Sequelize('sqlite::memory');
  */
 let repository;
 
-const sampleAlquiler = new Alquiler({
-  auto: new Auto({
+const sampleAlquiler = new AlquilerEntity({
+  auto: new AutoEntity({
     id: undefined,
     marca: undefined,
     modelo: undefined,
@@ -30,7 +30,7 @@ const sampleAlquiler = new Alquiler({
     manual: undefined,
     precio:undefined,
   }),
-  cliente: new Cliente({
+  cliente: new ClienteEntity({
     id:undefined,
     nombre: undefined,
     apellido: undefined,

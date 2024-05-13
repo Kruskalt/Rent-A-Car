@@ -1,6 +1,6 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-unused-vars */
-const AbstractClubRepositoryError = require("./error/abstractClubRepositoryError");
+const AbstractClubRepositoryError = require("./error/abstractAutoRepositoryError");
 const MethodNotImplementedError = require("./error/methodNotImplementedError");
 
 module.exports = class AbstractClubRepository {
