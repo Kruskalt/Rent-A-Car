@@ -5,7 +5,7 @@
 const AutoNotDefinedError = require('./error/autoNotDefinedError.js');
 const AutoIdNotDefinedError = require('./error/autoIdNotDefinedError.js');
 const Auto = require('../entity/auto.js');
-const Alquiler  = require('../entity/alquiler.js');
+
 
 module.exports = class Service {
   /**
