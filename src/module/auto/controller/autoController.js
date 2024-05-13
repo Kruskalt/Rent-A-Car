@@ -75,47 +75,8 @@ module.exports = class autoController extends AbstractController {
     }
   }
 
-  /**
-   * @param {import('express').Request} req
-   * @param {import('express').Response} res
-   */
-  async rent(req, res) {
-    const { id } = req.params;
-    
-    if (!id) {
-      throw new AutoIdNotDefinedError();
-    }
-
-    try {
-      const auto = await this.autoService.getById(id);
-      const alquileres= await this.autoService.getAllRentById(id)
-      console.log(alquileres)
-      res.render('auto/view/alquiler.html', { data: {  auto , alquileres} });
-    } catch (e) {
-      req.session.errors = [e.message, e.stack];
-      res.redirect('/auto');
-    }
-  }
-
-  /**
-   * @param {import('express').Request} req
-   * @param {import('express').Response} res
-   */
-  async rented(req, res) {
-    try {
-      const alquiler = alquilerMapper.fromDataToEntity(req.body);
-      console.log("estoy en autoController rented", req.body)
-      console.log("estoy en autoController rented este es el alquiler", alquiler)
-      const savedAlquiler = await this.autoService.rent(alquiler);
-      req.session.messages = [`Se creó el alquiler con exito`];     
-      res.redirect('/auto');
-    } catch (e) {
-      req.session.errors = [e.message, e.stack];
-      res.redirect('/auto');
-    }
-  }
-
-
+  
+  
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
