@@ -6,9 +6,10 @@ module.exports = class clienteController extends AbstractController {
   /**
    * @param {import('../service/clienteService')} clienteService
    */
-  constructor( clienteService) {
+  constructor(uploadMiddleware, clienteService) {
     super();  
     this.clienteService = clienteService;
+    this.uploadMiddleware = uploadMiddleware;
   }
 
   /**
